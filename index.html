@@ -22,7 +22,20 @@
       <path d="M8 5v14l11-7z"/>
     </svg>
   </button>
-  <!-- <script></script> -->
+
+    <audio id="audioPlayer" src="your-audio-file.mp3"></audio>
+    
+    <script>
+    function playAudio() {
+      var audio = document.getElementById("audioPlayer");
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  </script>
+    
     <h1>Buddy maybe make a sign in button</h1>
   </body>
 </html>
