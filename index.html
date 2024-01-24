@@ -17,6 +17,7 @@
     </h1>
     <a href="https://www.google.com">This is Google</a>
     <a href="https://www.google.com">Sign In</a>
+    <!--Buttons like Apple Music-->
     <div class="player-controls">
   <button class="rewind-button" onclick="rewindAudio()">
     <svg class="rewind-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -38,16 +39,25 @@
 </div>
 
     <audio id="audioPlayer" src="hitemup.mp3"></audio>
-    
+    <!--Script that controls Apple Music Buttons-->
     <script>
-    var audio = document.getElementById("audioPlayer");
+  var audio = document.getElementById("audioPlayer");
+
+  var trackUrls = ["everybodysweep.mp3", "Nollie Tre Flip.mp3", "spinnin.mp3"];
+  var currentTrackIndex = 0;
 
   function rewindAudio() {
-    audio.currentTime -= 5; // Rewind by 5 seconds (adjust as needed)
+    audio.currentTime = 0; // Restart the song
   }
 
   function fastforwardAudio() {
-    audio.currentTime += 5; // Fast forward by 5 seconds (adjust as needed)
+    if (currentTrackIndex < trackUrls.length - 1) {
+      currentTrackIndex++;
+    } else {
+      currentTrackIndex = 0; // Loop back to the first track
+    }
+    audio.src = trackUrls[currentTrackIndex];
+    audio.play();
   }
 
   function playAudio() {
@@ -57,7 +67,7 @@
       audio.pause();
     }
   }
-  </script>
+</script>
     
     <h1>Buddy maybe make a sign in button</h1>
   </body>
