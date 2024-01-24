@@ -24,7 +24,12 @@ img {
     object-position: center;
 }
 
-.apple-music-button {
+.player-controls {
+    display: flex;
+    gap: 20px; /* Adjust the gap between buttons */
+}
+
+.apple-music-button, .rewind-button, .fastforward-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +42,7 @@ img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.play-icon {
+.play-icon, .rewind-icon, .fastforward-icon {
     width: 50px;
     height: 50px;
     fill: #fff;
