@@ -1,5 +1,6 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -8,11 +9,12 @@ body {
 }
 
 .circle-container {
-    width: 100px;
-    height: 100px;
+    width: 150px; /* Increase the size for better alignment */
+    height: 150px; /* Increase the size for better alignment */
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow similar to Apple Music */
+    margin-bottom: 20px; /* Add margin at the bottom for spacing */
 }
 
 img {
@@ -22,22 +24,21 @@ img {
     object-position: center;
 }
 
-
 .apple-music-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  background-color: #FF474D;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background-color: #FF474D;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .play-icon {
-  width: 50px;
-  height: 50px;
-  fill: #fff;
+    width: 50px;
+    height: 50px;
+    fill: #fff;
 }
