@@ -17,23 +17,46 @@
     </h1>
     <a href="https://www.google.com">This is Google</a>
     <a href="https://www.google.com">Sign In</a>
-    <button class="apple-music-button" onclick="playAudio()">
+    <div class="player-controls">
+  <button class="rewind-button" onclick="rewindAudio()">
+    <svg class="rewind-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+    </svg>
+  </button>
+
+  <button class="apple-music-button" onclick="playAudio()">
     <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M8 5v14l11-7z"/>
     </svg>
   </button>
 
+  <button class="fastforward-button" onclick="fastforwardAudio()">
+    <svg class="fastforward-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M20 6v12h2V6h-2zm-14 6l8.5 6V6z"/>
+    </svg>
+  </button>
+</div>
+
     <audio id="audioPlayer" src="hitemup.mp3"></audio>
     
     <script>
-    function playAudio() {
-      var audio = document.getElementById("audioPlayer");
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
+    var audio = document.getElementById("audioPlayer");
+
+  function rewindAudio() {
+    audio.currentTime -= 5; // Rewind by 5 seconds (adjust as needed)
+  }
+
+  function fastforwardAudio() {
+    audio.currentTime += 5; // Fast forward by 5 seconds (adjust as needed)
+  }
+
+  function playAudio() {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
     }
+  }
   </script>
     
     <h1>Buddy maybe make a sign in button</h1>
