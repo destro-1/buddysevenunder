@@ -47,7 +47,18 @@
   var currentTrackIndex = 0;
 
   function rewindAudio() {
-    audio.currentTime = 0; // Restart the song
+    if (audio.currentTime === 0) {
+      // If currentTime is already at the beginning, go to the previous track
+      if (currentTrackIndex > 0) {
+        currentTrackIndex--;
+      } else {
+        currentTrackIndex = trackUrls.length - 1; // Loop to the last track
+      }
+      audio.src = trackUrls[currentTrackIndex];
+      audio.play();
+    } else {
+      audio.currentTime = 0; // Otherwise, restart the current track
+    }
   }
 
   function fastforwardAudio() {
