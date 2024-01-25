@@ -1,37 +1,60 @@
-var audio = document.getElementById("audioPlayer");
+var audioPlayer = {
+  youtubePlayer: player, // Reference to the YouTube player
 
-  var trackUrls = ["hitemup.mp3", "everybodysweep.mp3", "Nollie Tre Flip.mp3", "spinnin.mp3"];
-  var currentTrackIndex = 0;
+  setYoutubeVideo: function(videoId) {
+    this.youtubePlayer.loadVideoById(videoId);
+  },
 
-  function rewindAudio() {
-    if (audio.currentTime === 0) {
-      // If currentTime is at the beginning, go to the previous track or the last track
-      if (currentTrackIndex > 0) {
-        currentTrackIndex--;
-      } else {
-        currentTrackIndex = trackUrls.length - 1; // Go to the last track
-      }
-      audio.src = trackUrls[currentTrackIndex];
-      audio.play();
+  rewindAudio: function() {
+    if (this.youtubePlayer.getCurrentTime() === 0) {
+      // Handle rewind logic
     } else {
-      audio.currentTime = 0; // Otherwise, restart the current track
+      this.youtubePlayer.seekTo(0);
+    }
+  },
+
+  fastforwardAudio: function() {
+    // Handle fast forward logic
+  },
+
+  playPauseAudio: function() {
+    if (this.youtubePlayer.getPlayerState() === YT.PlayerState.PAUSED) {
+      this.youtubePlayer.playVideo();
+    } else {
+      this.youtubePlayer.pauseVideo();
     }
   }
+};
 
-  function fastforwardAudio() {
-    if (currentTrackIndex < trackUrls.length - 1) {
-      currentTrackIndex++;
-    } else {
-      currentTrackIndex = 0; // Loop back to the first track
-    }
-    audio.src = trackUrls[currentTrackIndex];
-    audio.play();
-  }
+function searchAndPlay() {
+  var searchTerm = document.getElementById('searchInput').value;
+  // Use YouTube API or another method to get the video ID based on the search term
+  // Example: Assume you have a function getVideoIdFromSearchTerm(searchTerm)
+  var videoId = getVideoIdFromSearchTerm(searchTerm);
 
-  function playAudio() {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
+  if (videoId) {
+    audioPlayer.setYoutubeVideo(videoId);
   }
+}
+
+function getVideoIdFromSearchTerm(searchTerm) {
+  // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
+  var apiKey = 'AIzaSyAD7A32b8BwOWNOBmgUGotQMA7nuzW4XXo';
+  var apiUrl = 'https://www.googleapis.com/youtube/v3/search';
+
+  // Make a request to the YouTube Data API
+  var requestUrl = `${apiUrl}?part=snippet&type=video&maxResults=1&q=${searchTerm}&key=${apiKey}`;
+
+  return fetch(requestUrl)
+    .then(response => response.json())
+    .then(data => {
+      // Extract the video ID from the API response
+      var videoId = data.items[0]?.id?.videoId;
+      return videoId;
+    })
+    .catch(error => {
+      console.error('Error fetching video ID:', error);
+      return null;
+    });
+}
+
