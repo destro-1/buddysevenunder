@@ -1,5 +1,4 @@
-<script>
-  var audio = document.getElementById("audioPlayer");
+var audio = document.getElementById("audioPlayer");
 
   var trackUrls = ["hitemup.mp3", "everybodysweep.mp3", "Nollie Tre Flip.mp3", "spinnin.mp3"];
   var currentTrackIndex = 0;
@@ -36,4 +35,3 @@
       audio.pause();
     }
   }
-</script>
