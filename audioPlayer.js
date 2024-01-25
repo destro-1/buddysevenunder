@@ -66,3 +66,4 @@ function searchAndPlay() {
 }
 
 // Rest of your code...
+audioPlayer.initializeYoutubePlayer();
