@@ -32,13 +32,15 @@ var audioPlayer = {
   },
 
   playPauseAudio: function() {
+  if (this.youtubePlayer && this.youtubePlayer.getVideoUrl()) {
     if (this.youtubePlayer.getPlayerState() === YT.PlayerState.PAUSED ||
         this.youtubePlayer.getPlayerState() === YT.PlayerState.ENDED) {
       this.youtubePlayer.playVideo();
     } else {
       this.youtubePlayer.pauseVideo();
     }
-  },
+  }
+},
 
   rewindAudio: function() {
     this.youtubePlayer.seekTo(0);
