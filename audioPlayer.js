@@ -67,7 +67,7 @@ function searchAndPlay() {
 }
 
 function getVideoIdFromSearchTerm(searchTerm) {
-  var apiKey = 'YOUR_API_KEY'; // Replace with your actual YouTube Data API key
+  var apiKey = 'AIzaSyAD7A32b8BwOWNOBmgUGotQMA7nuzW4XXo'; // Replace with your actual YouTube Data API key
   var apiUrl = 'https://www.googleapis.com/youtube/v3/search';
 
   var requestUrl = `${apiUrl}?part=snippet&type=video&maxResults=1&q=${searchTerm}&key=${apiKey}`;
