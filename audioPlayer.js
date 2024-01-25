@@ -46,7 +46,7 @@ var audioPlayer = {
   },
 
   fastforwardAudio: function() {
-    // Implement your fast forward logic (e.g., skip to next track)
+    // Implement your fast forward logic (e.g., skip to the next track)
     // You might need to implement a playlist and track index for this
   }
 };
@@ -58,6 +58,7 @@ function searchAndPlay() {
     .then(videoId => {
       if (videoId) {
         audioPlayer.setYoutubeVideo(videoId);
+        audioPlayer.playPauseAudio(); // Auto-play after loading
       }
     })
     .catch(error => {
@@ -65,5 +66,6 @@ function searchAndPlay() {
     });
 }
 
-// Rest of your code...
-audioPlayer.initializeYoutubePlayer();
+document.addEventListener('DOMContentLoaded', function() {
+  audioPlayer.initializeYoutubePlayer();
+});
