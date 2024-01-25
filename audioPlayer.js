@@ -83,3 +83,12 @@ function getVideoIdFromSearchTerm(searchTerm) {
       return null;
     });
 }
+
+// Function to initialize the YouTube player
+function initializeYoutubePlayer() {
+  audioPlayer.initializeYoutubePlayer();
+}
+
+// Event listener for 'DOMContentLoaded'
+document.addEventListener('DOMContentLoaded', initializeYoutubePlayer);
+
