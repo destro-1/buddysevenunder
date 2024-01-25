@@ -28,13 +28,18 @@ var audioPlayer = {
 
 function searchAndPlay() {
   var searchTerm = document.getElementById('searchInput').value;
+
   // Use YouTube API or another method to get the video ID based on the search term
   // Example: Assume you have a function getVideoIdFromSearchTerm(searchTerm)
-  var videoId = getVideoIdFromSearchTerm(searchTerm);
-
-  if (videoId) {
-    audioPlayer.setYoutubeVideo(videoId);
-  }
+  getVideoIdFromSearchTerm(searchTerm)
+    .then(videoId => {
+      if (videoId) {
+        audioPlayer.setYoutubeVideo(videoId);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching video ID:', error);
+    });
 }
 
 function getVideoIdFromSearchTerm(searchTerm) {
