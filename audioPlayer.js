@@ -63,3 +63,29 @@ function getVideoIdFromSearchTerm(searchTerm) {
     });
 }
 
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+      height: '0',
+      width: '0',
+      videoId: '', // Empty initially, will be set dynamically
+      playerVars: {
+        controls: 0, // Hide YouTube controls
+        autoplay: 0, // Autoplay off
+        enablejsapi: 1, // Enable JavaScript API
+        origin: window.location.origin // Set the origin for security
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    // Player is ready
+  }
+
+  function onPlayerStateChange(event) {
+    // Handle player state changes if needed
+  }
