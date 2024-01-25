@@ -40,19 +40,21 @@
 
     <audio id="audioPlayer" src="hitemup.mp3"></audio>
     <!--Script that controls Apple Music Buttons-->
-    <script>
+    <!-- Add the following script tag within the body tag -->
+
+<script>
   var audio = document.getElementById("audioPlayer");
 
-  var trackUrls = ["hitemup.mp3","everybodysweep.mp3", "Nollie Tre Flip.mp3", "spinnin.mp3"];
+  var trackUrls = ["hitemup.mp3", "everybodysweep.mp3", "Nollie Tre Flip.mp3", "spinnin.mp3"];
   var currentTrackIndex = 0;
 
   function rewindAudio() {
     if (audio.currentTime === 0) {
-      // If currentTime is already at the beginning, go to the previous track
+      // If currentTime is at the beginning, go to the previous track or the last track
       if (currentTrackIndex > 0) {
         currentTrackIndex--;
       } else {
-        currentTrackIndex = trackUrls.length - 1; // Loop to the last track
+        currentTrackIndex = trackUrls.length - 1; // Go to the last track
       }
       audio.src = trackUrls[currentTrackIndex];
       audio.play();
@@ -79,6 +81,7 @@
     }
   }
 </script>
+
     
     <h1>Buddy maybe make a sign in button</h1>
   </body>
