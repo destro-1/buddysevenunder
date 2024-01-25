@@ -58,13 +58,13 @@ function searchAndPlay() {
     .then(videoId => {
       if (videoId) {
         audioPlayer.setYoutubeVideo(videoId);
-        audioPlayer.playPauseAudio(); // Auto-play after loading
       }
     })
     .catch(error => {
       console.error('Error fetching video ID:', error);
     });
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
   audioPlayer.initializeYoutubePlayer();
