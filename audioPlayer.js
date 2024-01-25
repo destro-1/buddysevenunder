@@ -42,10 +42,11 @@ var audioPlayer = {
 
   rewindAudio: function() {
     this.youtubePlayer.seekTo(0);
+    this.youtubePlayer.playVideo(); // Auto-play after rewind
   },
 
   fastforwardAudio: function() {
-    // Handle fast forward logic (e.g., skip to next track)
+    // Implement your fast forward logic (e.g., skip to next track)
     // You might need to implement a playlist and track index for this
   }
 };
@@ -57,7 +58,6 @@ function searchAndPlay() {
     .then(videoId => {
       if (videoId) {
         audioPlayer.setYoutubeVideo(videoId);
-        audioPlayer.playPauseAudio(); // Auto-play after loading
       }
     })
     .catch(error => {
