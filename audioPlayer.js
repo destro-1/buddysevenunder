@@ -1,22 +1,9 @@
 var audioPlayer = {
   youtubePlayer: null,
+  currentVideoId: '', // Store the current video ID
 
   initializeYoutubePlayer: function() {
-    this.youtubePlayer = new YT.Player('youtubePlayer', {
-      height: '0',
-      width: '0',
-      videoId: '', // Empty initially, will be set dynamically
-      playerVars: {
-        controls: 0, // Hide YouTube controls
-        autoplay: 0, // Autoplay off
-        enablejsapi: 1, // Enable JavaScript API
-        origin: window.location.origin // Set the origin for security
-      },
-      events: {
-        'onReady': this.onPlayerReady,
-        'onStateChange': this.onPlayerStateChange
-      }
-    });
+    // ... (unchanged)
   },
 
   onPlayerReady: function(event) {
@@ -28,23 +15,26 @@ var audioPlayer = {
   },
 
   setYoutubeVideo: function(videoId) {
+    this.currentVideoId = videoId;
     this.youtubePlayer.loadVideoById(videoId);
   },
 
   playPauseAudio: function() {
-  if (this.youtubePlayer && this.youtubePlayer.getVideoUrl()) {
-    if (this.youtubePlayer.getPlayerState() === YT.PlayerState.PAUSED ||
-        this.youtubePlayer.getPlayerState() === YT.PlayerState.ENDED) {
-      this.youtubePlayer.playVideo();
-    } else {
-      this.youtubePlayer.pauseVideo();
+    if (this.youtubePlayer && this.currentVideoId) {
+      var playerState = this.youtubePlayer.getPlayerState();
+      if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.ENDED) {
+        this.youtubePlayer.playVideo();
+      } else if (playerState === YT.PlayerState.PLAYING) {
+        this.youtubePlayer.pauseVideo();
+      }
     }
-  }
-},
+  },
 
   rewindAudio: function() {
-    this.youtubePlayer.seekTo(0);
-    this.youtubePlayer.playVideo(); // Auto-play after rewind
+    if (this.youtubePlayer && this.currentVideoId) {
+      this.youtubePlayer.seekTo(0);
+      this.youtubePlayer.playVideo(); // Auto-play after rewind
+    }
   },
 
   fastforwardAudio: function() {
@@ -66,8 +56,3 @@ function searchAndPlay() {
       console.error('Error fetching video ID:', error);
     });
 }
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  audioPlayer.initializeYoutubePlayer();
-});
