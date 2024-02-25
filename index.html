@@ -3,26 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="audioPlayer.js" defer></script>
-  <title>BUDDYSEVENUNDER</title>
+  <title>Custom YouTube Player</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f2f2f2; /* Background color similar to Apple Music */
+    }
+
+    #player-container {
+      width: 640px;
+      height: 360px;
+      position: relative;
+    }
+
+    #youtubePlayer {
+      width: 100%;
+      height: 100%;
+    }
+
+    .player-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .apple-music-button {
+      background-color: #FF474D;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      margin: 0 10px;
+      padding: 15px;
+    }
+
+    .play-icon, .rewind-icon, .fastforward-icon {
+      width: 30px;
+      height: 30px;
+      fill: #fff;
+    }
+
+    #search-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #searchInput {
+      padding: 10px;
+      margin-right: 10px;
+    }
+
+    #searchButton {
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="circle-container">
-    <img src="ghostiepaint.png" alt="Circle Image">
+  <div id="player-container">
+    <div id="youtubePlayer"></div>
   </div>
-  <h1>Hello World!</h1>
-  <a href="https://www.google.com">This is Google</a>
-  <a href="https://www.google.com">Sign In</a>
-  
-  <!-- YouTube feature -->
-  <input type="text" id="searchInput" placeholder="Search YouTube">
-  <button onclick="searchAndPlay()">Search For a Song</button>
 
-  <!-- Buttons like Apple Music -->
   <div class="player-controls">
-    <button class="rewind-button" onclick="rewindAudio()">
+    <button class="apple-music-button" onclick="rewindAudio()">
       <svg class="rewind-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
       </svg>
@@ -34,24 +81,124 @@
       </svg>
     </button>
 
-    <button class="fastforward-button" onclick="fastforwardAudio()">
+    <button class="apple-music-button" onclick="fastforwardAudio()">
       <svg class="fastforward-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M20 6v12h2V6h-2zm-14 6l8.5 6V6z"/>
       </svg>
     </button>
   </div>
 
-  <div id="youtubePlayer"></div>
+  <div id="search-container">
+    <input type="text" id="searchInput" placeholder="Enter search term">
+    <button id="searchButton" onclick="searchAndPlay()">Search</button>
+  </div>
 
-  <audio id="audioPlayer" src="hitemup.mp3"></audio>
-  
-  <!-- Script that controls Apple Music Buttons -->
   <script>
+    var audioPlayer = {
+      youtubePlayer: null,
+      currentVideoId: '',
+
+      initializeYoutubePlayer: function() {
+        var tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = function() {
+          console.log('YouTube API Ready');
+          audioPlayer.youtubePlayer = new YT.Player('youtubePlayer', {
+            height: '100%',
+            width: '100%',
+            videoId: '',
+            playerVars: {
+              controls: 0, // Hide YouTube controls
+              disablekb: 1, // Disable keyboard control
+              enablejsapi: 1, // Enable JavaScript API
+              autoplay: 0, // Do not autoplay
+              modestbranding: 1, // Hide YouTube logo
+              playsinline: 1 // Play inline on mobile devices
+            },
+            events: {
+              'onReady': audioPlayer.onPlayerReady,
+              'onStateChange': audioPlayer.onPlayerStateChange
+            }
+          });
+        };
+      },
+
+      onPlayerReady: function(event) {
+        console.log('YouTube Player is ready');
+        event.target.pauseVideo();
+        event.target.clearVideo();
+      },
+
+      onPlayerStateChange: function(event) {
+        console.log('Player State Changed:', event.data);
+      },
+
+      setYoutubeVideo: function(videoId) {
+        this.currentVideoId = videoId;
+        this.youtubePlayer.loadVideoById(videoId);
+      },
+
+      playPauseAudio: function() {
+        if (this.youtubePlayer && this.currentVideoId) {
+          var playerState = this.youtubePlayer.getPlayerState();
+          console.log('Player State:', playerState);
+          if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.ENDED) {
+            this.youtubePlayer.playVideo();
+          } else if (playerState === YT.PlayerState.PLAYING) {
+            this.youtubePlayer.pauseVideo();
+          }
+        }
+      },
+
+      rewindAudio: function() {
+        if (this.youtubePlayer && this.currentVideoId) {
+          this.youtubePlayer.seekTo(0);
+          this.youtubePlayer.playVideo();
+        }
+      },
+
+      fastforwardAudio: function() {
+        // Implement your fast forward logic (e.g., skip to the next track)
+        // You might need to implement a playlist and track index for this
+      }
+    };
+
+    function getVideoIdFromSearchTerm(searchTerm) {
+      var apiKey = 'YOUR_API_KEY'; // Replace with your actual API key
+      var apiUrl = `https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&part=snippet&key=${apiKey}`;
+
+      return fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.items && data.items.length > 0) {
+            return data.items[0].id.videoId;
+          } else {
+            throw new Error('No video found for the given search term.');
+          }
+        });
+    }
+
+    function searchAndPlay() {
+      console.log('Search and Play function called');
+      var searchTerm = document.getElementById('searchInput').value;
+
+      getVideoIdFromSearchTerm(searchTerm)
+        .then(videoId => {
+          console.log('Fetched Video ID:', videoId);
+          if (videoId) {
+            audioPlayer.setYoutubeVideo(videoId);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching video ID:', error);
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       audioPlayer.initializeYoutubePlayer();
     });
   </script>
-
-  <h1>Buddy maybe make a sign in button</h1>
-</body>
-</html>
+ 
