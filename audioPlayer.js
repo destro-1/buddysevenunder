@@ -1,15 +1,24 @@
+// Updated JavaScript file
+
 var audioPlayer = {
   youtubePlayer: null,
-  currentVideoId: '', // Store the current video ID
+  currentVideoId: '',
 
   initializeYoutubePlayer: function() {
-    console.log('Initializing YouTube Player');
-    // ... (unchanged)
+    var that = this;
+    this.youtubePlayer = new YT.Player('youtubePlayer', {
+      height: '360',
+      width: '640',
+      videoId: this.currentVideoId,
+      events: {
+        'onReady': that.onPlayerReady,
+        'onStateChange': that.onPlayerStateChange
+      }
+    });
   },
 
   onPlayerReady: function(event) {
     console.log('YouTube Player is ready');
-    // Player is ready
   },
 
   onPlayerStateChange: function(event) {
@@ -37,7 +46,7 @@ var audioPlayer = {
   rewindAudio: function() {
     if (this.youtubePlayer && this.currentVideoId) {
       this.youtubePlayer.seekTo(0);
-      this.youtubePlayer.playVideo(); // Auto-play after rewind
+      this.youtubePlayer.playVideo();
     }
   },
 
@@ -46,6 +55,21 @@ var audioPlayer = {
     // You might need to implement a playlist and track index for this
   }
 };
+
+function getVideoIdFromSearchTerm(searchTerm) {
+  var apiKey = 'AIzaSyA54dEDICf8phdLsNaT5r6chXmaf7D8nik';
+  var apiUrl = `https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&part=snippet&key=${apiKey}`;
+
+  return fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data.items && data.items.length > 0) {
+        return data.items[0].id.videoId;
+      } else {
+        throw new Error('No video found for the given search term.');
+      }
+    });
+}
 
 function searchAndPlay() {
   var searchTerm = document.getElementById('searchInput').value;
