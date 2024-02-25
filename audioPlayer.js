@@ -1,20 +1,26 @@
-// Updated JavaScript file
-
 var audioPlayer = {
   youtubePlayer: null,
   currentVideoId: '',
 
   initializeYoutubePlayer: function() {
-    var that = this;
-    this.youtubePlayer = new YT.Player('youtubePlayer', {
-      height: '360',
-      width: '640',
-      videoId: this.currentVideoId,
-      events: {
-        'onReady': that.onPlayerReady,
-        'onStateChange': that.onPlayerStateChange
-      }
-    });
+    // Load the YouTube API script
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // Define onYouTubeIframeAPIReady function in the global scope
+    window.onYouTubeIframeAPIReady = function() {
+      audioPlayer.youtubePlayer = new YT.Player('youtubePlayer', {
+        height: '360',
+        width: '640',
+        videoId: '',
+        events: {
+          'onReady': audioPlayer.onPlayerReady,
+          'onStateChange': audioPlayer.onPlayerStateChange
+        }
+      });
+    };
   },
 
   onPlayerReady: function(event) {
