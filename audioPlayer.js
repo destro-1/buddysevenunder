@@ -3,14 +3,17 @@ var audioPlayer = {
   currentVideoId: '', // Store the current video ID
 
   initializeYoutubePlayer: function() {
+    console.log('Initializing YouTube Player');
     // ... (unchanged)
   },
 
   onPlayerReady: function(event) {
+    console.log('YouTube Player is ready');
     // Player is ready
   },
 
   onPlayerStateChange: function(event) {
+    console.log('Player State Changed:', event.data);
     // Handle player state changes if needed
   },
 
@@ -22,6 +25,7 @@ var audioPlayer = {
   playPauseAudio: function() {
     if (this.youtubePlayer && this.currentVideoId) {
       var playerState = this.youtubePlayer.getPlayerState();
+      console.log('Player State:', playerState);
       if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.ENDED) {
         this.youtubePlayer.playVideo();
       } else if (playerState === YT.PlayerState.PLAYING) {
@@ -48,6 +52,7 @@ function searchAndPlay() {
 
   getVideoIdFromSearchTerm(searchTerm)
     .then(videoId => {
+      console.log('Fetched Video ID:', videoId);
       if (videoId) {
         audioPlayer.setYoutubeVideo(videoId);
       }
@@ -56,3 +61,7 @@ function searchAndPlay() {
       console.error('Error fetching video ID:', error);
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  audioPlayer.initializeYoutubePlayer();
+});
