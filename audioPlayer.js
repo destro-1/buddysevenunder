@@ -14,7 +14,7 @@ var audioPlayer = {
       audioPlayer.youtubePlayer = new YT.Player('youtubePlayer', {
         height: '360',
         width: '640',
-        videoId: '',
+        videoId: '', // Initially set to empty
         events: {
           'onReady': audioPlayer.onPlayerReady,
           'onStateChange': audioPlayer.onPlayerStateChange
@@ -63,7 +63,7 @@ var audioPlayer = {
 };
 
 function getVideoIdFromSearchTerm(searchTerm) {
-  var apiKey = 'AIzaSyA54dEDICf8phdLsNaT5r6chXmaf7D8nik';
+  var apiKey = 'AIzaSyAD7A32b8BwOWNOBmgUGotQMA7nuzW4XXo'; // Replace with your actual API key
   var apiUrl = `https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&part=snippet&key=${apiKey}`;
 
   return fetch(apiUrl)
@@ -94,7 +94,6 @@ function searchAndPlay() {
       });
   };
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
   audioPlayer.initializeYoutubePlayer();
