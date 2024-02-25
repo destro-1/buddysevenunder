@@ -1,7 +1,9 @@
+// YouTube player object
 var audioPlayer = {
   youtubePlayer: null,
   currentVideoId: '',
 
+  // Function to initialize the YouTube player
   initializeYoutubePlayer: function() {
     // Load the YouTube API script
     var tag = document.createElement('script');
@@ -23,6 +25,7 @@ var audioPlayer = {
     };
   },
 
+  // Function called when the YouTube player is ready
   onPlayerReady: function(event) {
     console.log('YouTube Player is ready');
     // Initially hide the YouTube player
@@ -30,16 +33,19 @@ var audioPlayer = {
     event.target.clearVideo();
   },
 
+  // Function called when the state of the player changes
   onPlayerStateChange: function(event) {
     console.log('Player State Changed:', event.data);
     // Handle player state changes if needed
   },
 
+  // Function to set a YouTube video
   setYoutubeVideo: function(videoId) {
     this.currentVideoId = videoId;
     this.youtubePlayer.loadVideoById(videoId);
   },
 
+  // Function to play or pause the audio
   playPauseAudio: function() {
     if (this.youtubePlayer && this.currentVideoId) {
       var playerState = this.youtubePlayer.getPlayerState();
@@ -52,6 +58,7 @@ var audioPlayer = {
     }
   },
 
+  // Function to rewind the audio
   rewindAudio: function() {
     if (this.youtubePlayer && this.currentVideoId) {
       this.youtubePlayer.seekTo(0);
@@ -59,12 +66,14 @@ var audioPlayer = {
     }
   },
 
+  // Function for fast-forwarding the audio
   fastforwardAudio: function() {
     // Implement your fast forward logic (e.g., skip to the next track)
     // You might need to implement a playlist and track index for this
   }
 };
 
+// Function to fetch YouTube video ID from a search term
 function getVideoIdFromSearchTerm(searchTerm) {
   var apiKey = 'AIzaSyAD7A32b8BwOWNOBmgUGotQMA7nuzW4XXo';
   var apiUrl = `https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&part=snippet&key=${apiKey}`;
@@ -80,6 +89,7 @@ function getVideoIdFromSearchTerm(searchTerm) {
     });
 }
 
+// Function called when the "Search For a Song" button is clicked
 function searchAndPlay() {
   var searchTerm = document.getElementById('searchInput').value;
 
@@ -98,6 +108,7 @@ function searchAndPlay() {
   };
 }
 
+// Event listener for when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', function() {
   audioPlayer.initializeYoutubePlayer();
 });
