@@ -25,6 +25,9 @@ var audioPlayer = {
 
   onPlayerReady: function(event) {
     console.log('YouTube Player is ready');
+    // Initially hide the YouTube player
+    event.target.pauseVideo();
+    event.target.clearVideo();
   },
 
   onPlayerStateChange: function(event) {
@@ -63,7 +66,7 @@ var audioPlayer = {
 };
 
 function getVideoIdFromSearchTerm(searchTerm) {
-  var apiKey = 'AIzaSyAD7A32b8BwOWNOBmgUGotQMA7nuzW4XXo'; // Replace with your actual API key
+  var apiKey = 'AIzaSyAD7A32b8BwOWNOBmgUGotQMA7nuzW4XXo';
   var apiUrl = `https://www.googleapis.com/youtube/v3/search?q=${searchTerm}&type=video&part=snippet&key=${apiKey}`;
 
   return fetch(apiUrl)
