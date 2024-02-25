@@ -1,5 +1,5 @@
 var audioPlayer = {
-  audioFiles: ['hitemup.mp3', 'anotheraudio.mp3', 'yetanotheraudio.mp3'],
+  audioFiles: ['hitemup.mp3', 'everybodysweep.mp3', 'Nollie Tre Flip.mp3'],
   currentAudioIndex: 0,
   audioElement: null,
 
