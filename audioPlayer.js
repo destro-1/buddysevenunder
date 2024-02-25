@@ -9,6 +9,7 @@ var audioPlayer = {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     window.onYouTubeIframeAPIReady = function() {
+      console.log('YouTube API Ready');
       audioPlayer.youtubePlayer = new YT.Player('youtubePlayer', {
         height: '360',
         width: '640',
@@ -77,10 +78,12 @@ function getVideoIdFromSearchTerm(searchTerm) {
 }
 
 function searchAndPlay() {
+  console.log('Search and Play function called');
   var searchTerm = document.getElementById('searchInput').value;
 
   // Ensure that getVideoIdFromSearchTerm is called after the API script is loaded
   window.onYouTubeIframeAPIReady = function() {
+    console.log('YouTube API Ready');
     getVideoIdFromSearchTerm(searchTerm)
       .then(videoId => {
         console.log('Fetched Video ID:', videoId);
