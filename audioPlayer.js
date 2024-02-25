@@ -80,17 +80,21 @@ function getVideoIdFromSearchTerm(searchTerm) {
 function searchAndPlay() {
   var searchTerm = document.getElementById('searchInput').value;
 
-  getVideoIdFromSearchTerm(searchTerm)
-    .then(videoId => {
-      console.log('Fetched Video ID:', videoId);
-      if (videoId) {
-        audioPlayer.setYoutubeVideo(videoId);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching video ID:', error);
-    });
+  // Ensure that getVideoIdFromSearchTerm is called after the API script is loaded
+  window.onYouTubeIframeAPIReady = function() {
+    getVideoIdFromSearchTerm(searchTerm)
+      .then(videoId => {
+        console.log('Fetched Video ID:', videoId);
+        if (videoId) {
+          audioPlayer.setYoutubeVideo(videoId);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching video ID:', error);
+      });
+  };
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
   audioPlayer.initializeYoutubePlayer();
