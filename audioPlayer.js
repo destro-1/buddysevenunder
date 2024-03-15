@@ -5,7 +5,7 @@ const audioPlayer = {
   audio: null,
   currentTrackIndex: 0,
   playlist: [
-    { name: "Hit Em Up", src: "hitemup.mp3" },
+    { name: "Song 1", src: "song1.mp3" },
     { name: "Song 2", src: "song2.mp3" },
     // Add more songs as needed
   ],
@@ -14,6 +14,8 @@ const audioPlayer = {
   initializeAudioPlayer: function() {
     this.audio = document.getElementById('audioPlayer');
     this.loadTrack();
+    this.audio.play(); // Start playing the first song when the page loads
+    this.setupEventListeners();
   },
 
   // Function to play or pause the audio
@@ -46,6 +48,17 @@ const audioPlayer = {
   // Function to load the current track
   loadTrack: function() {
     this.audio.src = this.playlist[this.currentTrackIndex].src;
+  },
+
+  // Function to set up event listeners for the buttons
+  setupEventListeners: function() {
+    const playButton = document.querySelector('.apple-music-button');
+    const rewindButton = document.querySelector('.rewind-button');
+    const fastforwardButton = document.querySelector('.fastforward-button');
+
+    playButton.addEventListener('click', () => this.playPauseAudio());
+    rewindButton.addEventListener('click', () => this.rewindAudio());
+    fastforwardButton.addEventListener('click', () => this.fastforwardAudio());
   }
 };
 
