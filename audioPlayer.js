@@ -8,7 +8,8 @@ const audioPlayer = {
     { title: "Hit Em Up", src: "hitemup.mp3" },
     { title: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
     { title: "Everybody Sweep", src: "everybodysweep.mp3" },
-    { title: "Spinnin, src: "spinnin.mp3" },
+    { title: "Spinnin", src: "spinnin.mp3" },
+    { title: "3AM", src: "../songs/3am.mp3" },
     // Add more songs as needed
   ],
   
