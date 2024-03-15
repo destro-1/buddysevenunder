@@ -7,12 +7,13 @@ const audioPlayer = {
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
     { name: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
-    { name: "Everybody Sweep", src: "everybodysweep.mp3" },
     // Add more songs as needed
   ],
 
   // Function to initialize the audio player
   initializeAudioPlayer: function() {
+    this.loadTrack();
+    this.audio.pause(); // Pause the audio by default
     this.setupEventListeners();
   },
 
