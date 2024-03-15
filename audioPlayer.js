@@ -13,7 +13,6 @@ const audioPlayer = {
   // Function to initialize the audio player
   initializeAudioPlayer: function() {
     this.loadTrack();
-    this.audio.pause(); // Pause the audio by default
     this.setupEventListeners();
   },
 
@@ -29,7 +28,7 @@ const audioPlayer = {
   // Function to rewind the audio track
   rewindAudio: function() {
     if (this.audio.currentTime > 3) {
-      // If more than 3 seconds into the track, rewind to the beginning
+      // If more than 3 seconds into the track, restart the current track
       this.audio.currentTime = 0;
     } else {
       // If at the beginning or less than 3 seconds in, move to the previous track
@@ -41,7 +40,7 @@ const audioPlayer = {
 
   // Function to fast forward the audio track
   fastforwardAudio: function() {
-    // Move to the next track
+    // Move to the next track or go back to the first track if none available
     this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
     this.loadTrack();
     this.audio.play();
@@ -61,6 +60,11 @@ const audioPlayer = {
     playButton.addEventListener('click', () => this.playPauseAudio());
     rewindButton.addEventListener('click', () => this.rewindAudio());
     fastforwardButton.addEventListener('click', () => this.fastforwardAudio());
+
+    // Automatically switch to the next track when current track ends
+    this.audio.addEventListener('ended', () => {
+      this.fastforwardAudio();
+    });
   }
 };
 
