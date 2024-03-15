@@ -7,12 +7,14 @@ const audioPlayer = {
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
     { name: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
+    { name: "Everybody Sweep", src: "everybodysweep.mp3" },
     // Add more songs as needed
   ],
 
   // Function to initialize the audio player
   initializeAudioPlayer: function() {
     this.loadTrack();
+    this.audio.pause(); // Pause the audio by default
     this.setupEventListeners();
   },
 
@@ -27,12 +29,12 @@ const audioPlayer = {
 
   // Function to rewind the audio track
   rewindAudio: function() {
-    if (this.audio.currentTime > 3) {
-      // If more than 3 seconds into the track, restart the current track
+    if (this.audio.currentTime > 3 || this.currentTrackIndex === 0) {
+      // If more than 3 seconds into the track or at the beginning of the first track, restart the current track
       this.audio.currentTime = 0;
     } else {
-      // If at the beginning or less than 3 seconds in, move to the previous track
-      this.currentTrackIndex = (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
+      // Move to the previous track
+      this.currentTrackIndex--;
       this.loadTrack();
       this.audio.play();
     }
