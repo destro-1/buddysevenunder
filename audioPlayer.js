@@ -13,7 +13,6 @@ const audioPlayer = {
   // Function to initialize the audio player
   initializeAudioPlayer: function() {
     this.audio = document.getElementById('audioPlayer');
-    this.audio.pause(); // Pause the audio on page load
     this.loadTrack();
     this.setupEventListeners();
   },
@@ -63,17 +62,15 @@ const audioPlayer = {
   // Function to set up event listeners for the buttons
   setupEventListeners: function() {
     const playButton = document.querySelector('.apple-music-button');
+    const rewindButton = document.querySelector('.rewind-button');
+    const fastforwardButton = document.querySelector('.fastforward-button');
 
-    playButton.addEventListener('click', () => {
-      this.playPauseAudio();
-      // Start playing the audio when the play button is clicked for the first time
-      if (this.audio.paused && this.currentTrackIndex === 0) {
-        this.audio.play();
-      }
-    });
+    playButton.addEventListener('click', () => this.playPauseAudio());
+    rewindButton.addEventListener('click', () => this.rewindAudio());
+    fastforwardButton.addEventListener('click', () => this.fastforwardAudio());
 
-    document.querySelector('.rewind-button').addEventListener('click', () => this.rewindAudio());
-    document.querySelector('.fastforward-button').addEventListener('click', () => this.fastforwardAudio());
+    // Pause the audio when it finishes playing
+    this.audio.addEventListener('ended', () => this.audio.pause());
   }
 };
 
