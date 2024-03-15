@@ -2,7 +2,7 @@
 
 // Define an object to hold the audio player functionality
 const audioPlayer = {
-  audio: null,
+  audio: new Audio(), // Create an audio element
   currentTrackIndex: 0,
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
@@ -12,8 +12,6 @@ const audioPlayer = {
 
   // Function to initialize the audio player
   initializeAudioPlayer: function() {
-    this.audio = document.getElementById('audioPlayer');
-    this.loadTrack();
     this.setupEventListeners();
   },
 
@@ -28,16 +26,12 @@ const audioPlayer = {
 
   // Function to rewind the audio track
   rewindAudio: function() {
-    if (this.audio.currentTime > 0) {
-      // If not at the beginning, restart the current track
+    if (this.audio.currentTime > 3) {
+      // If more than 3 seconds into the track, rewind to the beginning
       this.audio.currentTime = 0;
     } else {
-      // If at the beginning, move to the previous track or go to the last track if none available
-      if (this.currentTrackIndex > 0) {
-        this.currentTrackIndex--;
-      } else {
-        this.currentTrackIndex = this.playlist.length - 1;
-      }
+      // If at the beginning or less than 3 seconds in, move to the previous track
+      this.currentTrackIndex = (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
       this.loadTrack();
       this.audio.play();
     }
@@ -45,11 +39,8 @@ const audioPlayer = {
 
   // Function to fast forward the audio track
   fastforwardAudio: function() {
-    if (this.currentTrackIndex < this.playlist.length - 1) {
-      this.currentTrackIndex++;
-    } else {
-      this.currentTrackIndex = 0;
-    }
+    // Move to the next track
+    this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
     this.loadTrack();
     this.audio.play();
   },
@@ -68,9 +59,6 @@ const audioPlayer = {
     playButton.addEventListener('click', () => this.playPauseAudio());
     rewindButton.addEventListener('click', () => this.rewindAudio());
     fastforwardButton.addEventListener('click', () => this.fastforwardAudio());
-
-    // Pause the audio when it finishes playing
-    this.audio.addEventListener('ended', () => this.audio.pause());
   }
 };
 
