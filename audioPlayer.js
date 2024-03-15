@@ -6,7 +6,7 @@ const audioPlayer = {
   currentTrackIndex: 0,
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
-    { name: "Song 2", src: "song2.mp3" },
+    { name: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
     // Add more songs as needed
   ],
 
