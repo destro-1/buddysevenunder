@@ -3,7 +3,7 @@
 // Define an object to hold the audio player functionality
 const audioPlayer = {
   audio: new Audio(), // Create an audio element
-  currentTrackIndex: 0,
+  currentTrackIndex: 1,
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
     { name: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
