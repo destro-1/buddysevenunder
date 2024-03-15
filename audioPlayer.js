@@ -22,17 +22,34 @@ const audioPlayer = {
   },
 
   rewindAudio: function() {
-    this.audio.currentTime -= 10; // Rewind 10 seconds
+    if (this.currentSongIndex === 0 && this.audio.currentTime <= 3) {
+      // If it's the first song and already at the beginning or has been playing less than 3 seconds
+      this.currentSongIndex = this.songs.length - 1; // Go to the last song
+    } else {
+      // Otherwise, restart the current song
+      this.audio.currentTime = 0;
+    }
+    this.loadSong();
   },
 
   fastforwardAudio: function() {
-    this.audio.currentTime += 10; // Fast forward 10 seconds
+    if (this.currentSongIndex === this.songs.length - 1) {
+      // If it's the last song, go back to the first song
+      this.currentSongIndex = 0;
+    } else {
+      // Otherwise, go to the next song
+      this.currentSongIndex++;
+    }
+    this.loadSong();
   },
 
   loadSong: function() {
     const currentSong = this.songs[this.currentSongIndex];
     this.audio.src = currentSong.src;
     document.getElementById('songTitle').innerText = currentSong.title;
+    if (this.isPlaying) {
+      this.audio.play(); // Resume playing if it was playing
+    }
   }
 };
 
