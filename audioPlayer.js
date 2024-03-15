@@ -3,7 +3,7 @@
 // Define an object to hold the audio player functionality
 const audioPlayer = {
   audio: new Audio(), // Create an audio element
-  currentTrackIndex: 1,
+  currentTrackIndex: 0,
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
     { name: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
@@ -18,34 +18,28 @@ const audioPlayer = {
     this.setupEventListeners();
   },
 
-  // Function to play or pause the audio
-  playPauseAudio: function() {
-    if (this.audio.paused) {
-      this.audio.play();
-    } else {
-      this.audio.pause();
-    }
+  // Function to play the audio
+  playAudio: function() {
+    this.audio.play();
   },
 
-  // Function to rewind the audio track
-  rewindAudio: function() {
-    if (this.audio.currentTime > 3 || this.currentTrackIndex === 0) {
-      // If more than 3 seconds into the track or at the beginning of the first track, restart the current track
-      this.audio.currentTime = 0;
-    } else {
-      // Move to the previous track
-      this.currentTrackIndex--;
-      this.loadTrack();
-      this.audio.play();
-    }
+  // Function to pause the audio
+  pauseAudio: function() {
+    this.audio.pause();
   },
 
-  // Function to fast forward the audio track
-  fastforwardAudio: function() {
-    // Move to the next track or go back to the first track if none available
+  // Function to switch to the previous track
+  prevTrack: function() {
+    this.currentTrackIndex = (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
+    this.loadTrack();
+    this.playAudio();
+  },
+
+  // Function to switch to the next track
+  nextTrack: function() {
     this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
     this.loadTrack();
-    this.audio.play();
+    this.playAudio();
   },
 
   // Function to load the current track
@@ -55,17 +49,24 @@ const audioPlayer = {
 
   // Function to set up event listeners for the buttons
   setupEventListeners: function() {
-    const playButton = document.querySelector('.apple-music-button');
-    const rewindButton = document.querySelector('.rewind-button');
-    const fastforwardButton = document.querySelector('.fastforward-button');
+    const playPauseButton = document.querySelector('.apple-music-button');
+    const prevButton = document.querySelector('.rewind-button');
+    const nextButton = document.querySelector('.fastforward-button');
 
-    playButton.addEventListener('click', () => this.playPauseAudio());
-    rewindButton.addEventListener('click', () => this.rewindAudio());
-    fastforwardButton.addEventListener('click', () => this.fastforwardAudio());
+    playPauseButton.addEventListener('click', () => {
+      if (this.audio.paused) {
+        this.playAudio();
+      } else {
+        this.pauseAudio();
+      }
+    });
+
+    prevButton.addEventListener('click', () => this.prevTrack());
+    nextButton.addEventListener('click', () => this.nextTrack());
 
     // Automatically switch to the next track when current track ends
     this.audio.addEventListener('ended', () => {
-      this.fastforwardAudio();
+      this.nextTrack();
     });
   }
 };
