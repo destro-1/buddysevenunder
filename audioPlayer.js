@@ -14,7 +14,6 @@ const audioPlayer = {
   initializeAudioPlayer: function() {
     this.audio = document.getElementById('audioPlayer');
     this.loadTrack();
-    this.audio.play(); // Start playing the first song when the page loads
     this.setupEventListeners();
   },
 
@@ -53,12 +52,17 @@ const audioPlayer = {
   // Function to set up event listeners for the buttons
   setupEventListeners: function() {
     const playButton = document.querySelector('.apple-music-button');
-    const rewindButton = document.querySelector('.rewind-button');
-    const fastforwardButton = document.querySelector('.fastforward-button');
 
-    playButton.addEventListener('click', () => this.playPauseAudio());
-    rewindButton.addEventListener('click', () => this.rewindAudio());
-    fastforwardButton.addEventListener('click', () => this.fastforwardAudio());
+    playButton.addEventListener('click', () => {
+      this.playPauseAudio();
+      // Start playing the audio when the play button is clicked for the first time
+      if (this.audio.paused && this.currentTrackIndex === 0) {
+        this.audio.play();
+      }
+    });
+
+    document.querySelector('.rewind-button').addEventListener('click', () => this.rewindAudio());
+    document.querySelector('.fastforward-button').addEventListener('click', () => this.fastforwardAudio());
   }
 };
 
