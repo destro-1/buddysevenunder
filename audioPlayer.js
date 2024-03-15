@@ -13,6 +13,7 @@ const audioPlayer = {
   // Function to initialize the audio player
   initializeAudioPlayer: function() {
     this.audio = document.getElementById('audioPlayer');
+    this.audio.pause(); // Pause the audio on page load
     this.loadTrack();
     this.setupEventListeners();
   },
@@ -28,8 +29,16 @@ const audioPlayer = {
 
   // Function to rewind the audio track
   rewindAudio: function() {
-    if (this.currentTrackIndex > 0) {
-      this.currentTrackIndex--;
+    if (this.audio.currentTime > 0) {
+      // If not at the beginning, restart the current track
+      this.audio.currentTime = 0;
+    } else {
+      // If at the beginning, move to the previous track or go to the last track if none available
+      if (this.currentTrackIndex > 0) {
+        this.currentTrackIndex--;
+      } else {
+        this.currentTrackIndex = this.playlist.length - 1;
+      }
       this.loadTrack();
       this.audio.play();
     }
@@ -39,9 +48,11 @@ const audioPlayer = {
   fastforwardAudio: function() {
     if (this.currentTrackIndex < this.playlist.length - 1) {
       this.currentTrackIndex++;
-      this.loadTrack();
-      this.audio.play();
+    } else {
+      this.currentTrackIndex = 0;
     }
+    this.loadTrack();
+    this.audio.play();
   },
 
   // Function to load the current track
