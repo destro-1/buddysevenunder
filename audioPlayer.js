@@ -7,6 +7,7 @@ const audioPlayer = {
   playlist: [
     { name: "Hit Em Up", src: "hitemup.mp3" },
     { name: "Nollie Tre Flip", src: "Nollie Tre Flip.mp3" },
+    { name: "Everybody Sweep", src: "everybodysweep.mp3" },
     // Add more songs as needed
   ],
 
